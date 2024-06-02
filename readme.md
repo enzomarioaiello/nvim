@@ -194,3 +194,6 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 - **Run !chmod +x %< command:** `Space + x`
   - Makes the current file executable.
 
+- **Run JS file with node:** `:!node &`
+  - Runs the current file using node.
+
