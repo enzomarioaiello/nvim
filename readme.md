@@ -149,7 +149,7 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
   - Copies the selected text into the system clipboard.
 
 - **Paste:** `p`
-  - Pastes the clipboard content at the cursor position or over the selection without overwriting the copied content.
+  - If pasted at the cursor then it will not be overwritten but if pasted over a selection then it will be overwritten.
 
 - **Paste over selection without overwriting clipboard:** `Space + p`
   - Pastes the clipboard content over the current selection without altering the clipboard.
@@ -193,4 +193,7 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 
 - **Run !chmod +x %< command:** `Space + x`
   - Makes the current file executable.
+
+- **Run JS file with node:** `:!node &`
+  - Runs the current file using node.
 
