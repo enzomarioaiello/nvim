@@ -184,6 +184,9 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 - **Move to the start of the file:** `gg`
 - **Move to the end of the file:** `G`
 
+- **Delete the word your cursor at the start of:** `d + i`
+- **Delete the entire section of words until the next whitespace on either side:** `d + i + W`
+
 - **Move to a specific line:** `:line_number`
   - For example, `:10` moves to line 10.
 
