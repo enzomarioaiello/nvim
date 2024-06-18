@@ -26,7 +26,7 @@ return require('packer').startup(function(use)
     requires = {
         "nvim-lua/plenary.nvim",
     },
-  })
+})
 
   use {
       "ThePrimeagen/harpoon",
@@ -50,4 +50,7 @@ return require('packer').startup(function(use)
   use {"akinsho/toggleterm.nvim", tag = '*', config = function()
       require("toggleterm").setup()
   end}
+  use {"github/copilot.vim"}
+  use { "scottmckendry/cyberdream.nvim" }
+  use { "xiyaowong/transparent.nvim" }
 end)

@@ -29,4 +29,13 @@ require("gruvbox").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
+
+require("cyberdream").setup({
+    -- Enable transparent background
+    transparent = true,
+})
+
 vim.cmd("colorscheme gruvbox")
+-- vim.cmd("colorscheme cyberdream")
+
+

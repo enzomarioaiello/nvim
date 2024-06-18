@@ -2,7 +2,7 @@ local tt = require("toggleterm")
 
 tt.setup({
   -- size can be a number or function which is passed the current terminal
-  size = 10,
+  size = 14,
   open_mapping = [[<c-\>]],
   hide_numbers = true, -- hide the number column in toggleterm buffers
   shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
