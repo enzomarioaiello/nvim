@@ -22,7 +22,7 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 - [Basic Vim Movement Commands](#basic-vim-movement-commands)
 - [Additional Commands](#additional-commands)
   - [File Execution](#file-execution)
-- [TMUX]
+- [TMUX](#tmux)
 
 ## Normal Mode
 
