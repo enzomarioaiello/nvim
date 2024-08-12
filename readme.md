@@ -201,28 +201,90 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 - **Run JS file with node:** `:!node &`
   - Runs the current file using node.
  
-## TMUX
-### Tmux sessions
-- **How they work in my own words**
-  - So a tmux session is created with a name and this is like a box, this is called a window. Inside this box you can have multiple panes where you can open multiple instances of different directories and instances of nvim. IDFK
-    
-### Commands
-- **Tmux prefix key:** `Ctrl + b`
-  - This is the keys that should be pressed before any commands which are listed hereafter are executed
+# TMUX
 
-- **Create new pane:** `c`
-  - Creates a new pane, which show up on the bottom most bar, with its number and name
-  
-- **Rename a pane:** `,`
-  - Rename the current pane you are in
- 
-- **Switch to next pane:** `n`
-  - Switches to the next pane
- 
-- **Switch to a specific pane by number:** `{number}`
-  - Enter a specific number like 1 or 3 and it will move to the pane numbered that
+## Tmux Sessions
 
-- **Detach from a session:** `d`
+### How They Work (In My Own Words)
+A tmux session is like a container, or a "box," where you can manage multiple terminal environments. This container is called a **window**. Inside a window, you can split the view into multiple **panes**, allowing you to work with different directories, instances of `nvim`, or shell commands simultaneously. Each pane acts as a separate terminal, giving you a powerful way to multitask.
+
+## Essential Commands
+
+### Tmux Prefix Key
+`Ctrl + b`  
+This key combination must be pressed before executing any tmux command.
+
+### Create New Window
+`c`  
+Creates a new window and shows it in the status bar with its number and name.
+
+### Rename a Window
+`,`  
+Renames the current window for easy identification.
+
+### Switch to Next Window
+`n`  
+Switches to the next window in the session.
+
+### Switch to a Specific Window by Number
+`{number}`  
+Press the number of the window (e.g., `1`, `2`, etc.) to switch directly to that window.
+
+### Detach from a Session
+`d`  
+Detaches from the current session, allowing it to continue running in the background.
+
+### Switch Between Sessions
+`s`  
+Opens a menu to navigate between different tmux sessions. Use `x` in this menu to kill a window.
+
+## Advanced Tmux Shortcuts
+
+### Split Window Horizontally
+`%`  
+Splits the current window into two panes side by side.
+
+### Split Window Vertically
+`"`  
+Splits the current window into two panes stacked on top of each other.
+
+### Toggle Between Last Two Windows
+`l`  
+Quickly switch back and forth between the last two windows you used.
+
+### Resize Pane
+`Ctrl + b` followed by arrow keys  
+Use arrow keys after the prefix to resize the current pane in the desired direction.
+
+### Kill Pane
+`x`  
+Closes the current pane.
+
+### Kill Window
+`&`  
+Closes the current window and all its panes.
+
+### Synchronize Panes
+`:setw synchronize-panes on`  
+When this is enabled, any command you type in one pane will be mirrored in all panes of the window. Disable it with `:setw synchronize-panes off`.
+
+### Copy Mode
+`[`  
+Enter copy mode to scroll back through the buffer or select text. Use `q` to exit.
+
+### Paste Buffer
+`]`  
+Paste the last copied text from the tmux buffer into the current pane.
+
+## Customizing Tmux
+
+### Change Prefix Key
+If `Ctrl + b` is not comfortable, you can change it. For example, change it to `Ctrl + a` by adding this line to your `.tmux.conf` file:
+```bash
+set-option -g prefix C-a
+unbind-key C-b
+bind-key C-a send-prefix
+
 
 - **Switch between sessions:** `s`
   - This will bring up a menu in which you can navigate between sessions
