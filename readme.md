@@ -284,7 +284,7 @@ If `Ctrl + b` is not comfortable, you can change it. For example, change it to `
 set-option -g prefix C-a
 unbind-key C-b
 bind-key C-a send-prefix
-
+```
 
 - **Switch between sessions:** `s`
   - This will bring up a menu in which you can navigate between sessions
