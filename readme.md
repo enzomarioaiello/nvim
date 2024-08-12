@@ -22,6 +22,7 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 - [Basic Vim Movement Commands](#basic-vim-movement-commands)
 - [Additional Commands](#additional-commands)
   - [File Execution](#file-execution)
+- [TMUX]
 
 ## Normal Mode
 
@@ -199,4 +200,31 @@ This README file provides a comprehensive guide to various Neovim shortcuts and 
 
 - **Run JS file with node:** `:!node &`
   - Runs the current file using node.
+ 
+## TMUX
+### Tmux sessions
+- **How they work in my own words**
+  - So a tmux session is created with a name and this is like a box, this is called a window. Inside this box you can have multiple panes where you can open multiple instances of different directories and instances of nvim. IDFK
+    
+### Commands
+- **Tmux prefix key:** `Ctrl + b`
+  - This is the keys that should be pressed before any commands which are listed hereafter are executed
 
+- **Create new pane:** `c`
+  - Creates a new pane, which show up on the bottom most bar, with its number and name
+  
+- **Rename a pane:** `,`
+  - Rename the current pane you are in
+ 
+- **Switch to next pane:** `n`
+  - Switches to the next pane
+ 
+- **Switch to a specific pane by number:** `{number}`
+  - Enter a specific number like 1 or 3 and it will move to the pane numbered that
+
+- **Detach from a session:** `d`
+
+- **Switch between sessions:** `s`
+  - This will bring up a menu in which you can navigate between sessions
+  - Inside this menu you can use just `x` to delete a window
+ 
