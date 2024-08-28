@@ -30,8 +30,8 @@ local lazygit = Terminal:new({
   direction = "float",
   float_opts = {
     border = "curved",
-    width = 120,
-    height =  30,
+    width = 180,
+    height =  40,
   },
   on_exit = function (term)
     vim.api.nvim_buf_delete(term.bufnr, { force = true })

@@ -35,7 +35,33 @@ require("cyberdream").setup({
     transparent = true,
 })
 
+
 vim.cmd("colorscheme gruvbox")
 -- vim.cmd("colorscheme cyberdream")
+vim.g.python3_host_prog = os.getenv("NVIM_PYTHON3_HOST_PROG")
 
 
+
+----------------------------------- DEPRECATED -----------------------------------
+-- Function to update the Python interpreter
+--function UpdatePythonInterpreter()
+--    -- Get the VIRTUAL_ENV environment variable
+--    local venv_path = os.getenv("NVIM_PYTHON3_HOST_PROG")
+--    -- If VIRTUAL_ENV is set, update the python3_host_prog
+--    if venv_path ~= nil and venv_path ~= "" then
+--        vim.g.python3_host_prog = venv_path
+--        -- Print a message to confirm the interpreter has been updated
+--        print("Python interpreter updated successfully")
+--    else
+--        print("VIRTUAL_ENV is not set")
+--    end
+--end
+--
+---- Create a custom command to source the virtual environment and update the Python interpreter
+--vim.api.nvim_create_user_command(
+--    'UpdatePythonInterpreter',
+--    function()
+--        UpdatePythonInterpreter()
+--    end,
+--    {}
+--)

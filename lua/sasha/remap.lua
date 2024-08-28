@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>c", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -24,7 +24,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- 2. then in visual mode select bar using iw
 -- 3. use leader p in order to paste over it
 
--- next greatest remap ever : asbjornHaland (copies into clipboard)
+-- next greatest remap ever : asbjornHaland (copies into clipboard)hello
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
@@ -48,7 +48,7 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 vim.keymap.set(
     "n",
     "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
+    "oasync def func(): <Esc>"
 )
 
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua<CR>");
