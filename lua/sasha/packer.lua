@@ -77,4 +77,6 @@ return require('packer').startup(function(use)
   -- use {"github/copilot.vim"}
   use { "scottmckendry/cyberdream.nvim" }
   use { "xiyaowong/transparent.nvim" }
+  use { 'karb94/neoscroll.nvim' }
+
 end)
