@@ -14,11 +14,11 @@ return require('packer').startup(function(use)
 
   use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use ('nvim-treesitter/playground')
-
   use { "ellisonleao/gruvbox.nvim" } -- Colorscheme
   use { "nvim-lua/plenary.nvim" }
   use { "/mbbill/undotree" }
   use { "tpope/vim-fugitive" }
+  -- use {'edluffy/hologram.nvim'} -- PDF Viewer
   -- nvim v0.7.2
   use({
     "kdheepak/lazygit.nvim",
@@ -27,6 +27,16 @@ return require('packer').startup(function(use)
         "nvim-lua/plenary.nvim",
     },
 })
+
+    use {
+      "nvim-neotest/neotest",
+      requires = {
+        "nvim-neotest/nvim-nio",
+        "nvim-lua/plenary.nvim",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-treesitter/nvim-treesitter"
+      }
+    }
 
   use {
       "ThePrimeagen/harpoon",
@@ -79,4 +89,33 @@ return require('packer').startup(function(use)
   use { "xiyaowong/transparent.nvim" }
   use { 'karb94/neoscroll.nvim' }
 
+  -- TESTING
+    use {
+        "rcasia/neotest-java",
+        ft = "java",
+        requires = {
+          "mfussenegger/nvim-jdtls",          -- LSP for Java
+          "mfussenegger/nvim-dap",            -- Debug Adapter Protocol for Java
+          "rcarriga/nvim-dap-ui",             -- UI for nvim-dap
+          "theHamsta/nvim-dap-virtual-text"   -- virtual text for nvim-dap
+        }
+      }
+   use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter"
+    },
+    config = function()
+      require('neotest').setup({
+        adapters = {
+          ["neotest-java"] = {
+            -- Add any specific configuration here
+          },
+        },
+      })
+    end,
+  }
 end)

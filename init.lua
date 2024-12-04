@@ -4,6 +4,7 @@ require("sasha.remap")
 -- :set nu (line numbers)
 -- :set rnu (relative line numbers)
 
+
 -- Default options for gruvbox colorshceme:
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
@@ -39,8 +40,6 @@ require("cyberdream").setup({
 vim.cmd("colorscheme gruvbox")
 -- vim.cmd("colorscheme cyberdream")
 vim.g.python3_host_prog = os.getenv("NVIM_PYTHON3_HOST_PROG")
-
-
 
 ----------------------------------- DEPRECATED -----------------------------------
 -- Function to update the Python interpreter
