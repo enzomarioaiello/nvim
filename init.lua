@@ -1,4 +1,16 @@
-require("sasha")
+-- Set leader key before loading lazy
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Shada file settings
+vim.opt.shada = "!,'1000,<50,s10,h"  -- Increase history size and save marks
+vim.opt.shadafile = vim.fn.stdpath('state') .. '/shada/main.shada'
+
+-- Load lazy.nvim
+require("config.lazy")
+
+-- Load your custom configurations
+require("sasha.set")
 require("sasha.remap")
 
 -- :set nu (line numbers)
@@ -28,7 +40,7 @@ require("gruvbox").setup({
   palette_overrides = {},
   overrides = {},
   dim_inactive = false,
-  transparent_mode = false,
+  transparent_mode = true,
 })
 
 require("cyberdream").setup({
@@ -36,6 +48,7 @@ require("cyberdream").setup({
     transparent = true,
 })
 
+require'lspconfig'.rust_analyzer.setup{}
 
 vim.cmd("colorscheme gruvbox")
 -- vim.cmd("colorscheme cyberdream")
