@@ -61,4 +61,4 @@ require('mason-lspconfig').setup({
   },
 })
 
-return {} 
+return {}

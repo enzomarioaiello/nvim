@@ -54,6 +54,10 @@ vim.cmd("colorscheme gruvbox")
 -- vim.cmd("colorscheme cyberdream")
 vim.g.python3_host_prog = os.getenv("NVIM_PYTHON3_HOST_PROG")
 
+
+vim.diagnostic.config({
+  update_in_insert = true,
+})
 ----------------------------------- DEPRECATED -----------------------------------
 -- Function to update the Python interpreter
 --function UpdatePythonInterpreter()
