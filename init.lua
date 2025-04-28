@@ -6,6 +6,9 @@ vim.g.maplocalleader = " "
 vim.opt.shada = "!,'1000,<50,s10,h"  -- Increase history size and save marks
 vim.opt.shadafile = vim.fn.stdpath('state') .. '/shada/main.shada'
 
+-- Disable editorconfig
+vim.g.editorconfig = false
+
 -- Load lazy.nvim
 require("config.lazy")
 
