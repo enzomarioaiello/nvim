@@ -427,20 +427,20 @@ return {
       -- Expanded list of servers to install
       local ensure_installed = {
         -- Languages
-        "rust_analyzer",                   -- Rust
-        "lua_ls",                          -- Lua
-        "ts_ls",                           -- TypeScript/JavaScript
-        "svelte",                          -- Svelte
-        "jedi_language_server",            -- Python (Jedi)
-        "bashls",                          -- Bash
-        "clangd",                          -- C/C++
-        "jdtls",                           -- Java
-        "dockerls",                        -- Docker
+        "rust_analyzer",      -- Rust
+        "lua_ls",             -- Lua
+        "ts_ls",           -- TypeScript/JavaScript
+        "svelte",             -- Svelte
+        "jedi_language_server", -- Python (Jedi)
+        "bashls",             -- Bash
+        "clangd",             -- C/C++
+        "jdtls",              -- Java
+        "dockerls",           -- Docker
         "docker_compose_language_service", -- Docker Compose
-        "jsonls",                          -- JSON
-        "yamlls",                          -- YAML
-        "html",                            -- HTML
-        "cssls",                           -- CSS
+        "jsonls",             -- JSON
+        "yamlls",             -- YAML
+        "html",               -- HTML
+        "cssls",              -- CSS
         
         -- Linters and formatters (some will be installed via Mason directly)
         "eslint",             -- JavaScript/TypeScript linting
@@ -610,24 +610,63 @@ return {
     config = function()
       local telescope = require("telescope")
       
+      -- Configure Telescope to match the old appearance
       telescope.setup({
         defaults = {
-          prompt_prefix = " ",
-          selection_caret = " ",
-          path_display = { "truncate" },
-          file_ignore_patterns = { "node_modules", ".git/", "target/" },
+          sorting_strategy = "ascending",
+          -- Use a different layout strategy for better organization
+          layout_strategy = "horizontal",
           layout_config = {
             horizontal = {
               prompt_position = "top",
-              preview_width = 0.55,
-              results_width = 0.8,
+              preview_width = 0.55, 
+              results_width = 0.4,
+              width = 0.87,
+              height = 0.80,
+              preview_cutoff = 120,
             },
-            vertical = {
-              mirror = false,
+          },
+          borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+          file_ignore_patterns = {
+            "node_modules",
+            ".git/",
+            "target/",
+            "dist/",
+            ".next/",
+            "build/",
+            "vendor/",
+          },
+          -- Custom keymaps as requested
+          mappings = {
+            i = {
+              -- Use C-n and C-p for navigating through files
+              ["<C-n>"] = "move_selection_next",
+              ["<C-p>"] = "move_selection_previous",
+              
+              -- Use C-j and C-k for scrolling in the preview window
+              ["<C-j>"] = "preview_scrolling_down",
+              ["<C-k>"] = "preview_scrolling_up",
             },
-            width = 0.87,
-            height = 0.80,
-            preview_cutoff = 120,
+            n = {
+              -- Also apply in normal mode
+              ["<C-n>"] = "move_selection_next",
+              ["<C-p>"] = "move_selection_previous",
+              ["<C-j>"] = "preview_scrolling_down",
+              ["<C-k>"] = "preview_scrolling_up",
+            },
+          },
+        },
+        pickers = {
+          -- Configure specific pickers with a standard layout (not dropdown)
+          find_files = {
+            -- Use normal layout with explicitly positioned preview
+            hidden = true,
+          },
+          git_files = {
+            -- Use normal layout with explicitly positioned preview
+          },
+          buffers = {
+            -- Use normal layout with explicitly positioned preview
           },
         },
       })
@@ -671,6 +710,22 @@ return {
           width = 180,
           height = 40,
         },
+        on_open = function(term)
+          -- Start in insert mode when lazygit opens
+          vim.cmd("startinsert!")
+          
+          -- Create a buffer-local autocmd to stay in insert mode
+          local bufnr = term.bufnr
+          if bufnr then
+            vim.api.nvim_create_autocmd("BufEnter", {
+              buffer = bufnr,  -- Use buffer instead of pattern
+              callback = function()
+                vim.cmd("startinsert!")
+              end,
+              once = true,  -- Only trigger once per buffer enter
+            })
+          end
+        end,
         on_exit = function(term)
           vim.api.nvim_buf_delete(term.bufnr, { force = true })
         end,
@@ -808,13 +863,67 @@ return {
     config = function()
       local lint = require("lint")
 
+      -- Function to check if a specified executable exists in PATH
+      local function executable_exists(exe)
+        return vim.fn.executable(exe) == 1
+      end
+
+      -- Function to check if a file exists in the project or parent directories
+      local function file_exists_in_project(filename)
+        local current_dir = vim.fn.expand("%:p:h")
+        local max_depth = 10 -- Limit search depth to avoid infinite loops
+        local depth = 0
+
+        while current_dir ~= "" and depth < max_depth do
+          local filepath = current_dir .. "/" .. filename
+          if vim.fn.filereadable(filepath) == 1 then
+            return true
+          end
+          -- Go up one directory
+          local parent_dir = vim.fn.fnamemodify(current_dir, ":h")
+          if parent_dir == current_dir then
+            break -- Reached root directory
+          end
+          current_dir = parent_dir
+          depth = depth + 1
+        end
+        return false
+      end
+
+      -- Configure linters per filetype with conditional checks
       lint.linters_by_ft = {
-        python = { "ruff" },
-        javascript = { "eslint" },
-        typescript = { "eslint" },
-        javascriptreact = { "eslint" },
-        typescriptreact = { "eslint" },
-        svelte = { "eslint" },
+        python = executable_exists("ruff") and { "ruff" } or {},
+        -- Only use eslint if it's available and if there's an ESLint config
+        javascript = (executable_exists("eslint") and 
+                    (file_exists_in_project(".eslintrc.js") or 
+                     file_exists_in_project(".eslintrc.json") or 
+                     file_exists_in_project(".eslintrc.yml") or 
+                     file_exists_in_project(".eslintrc") or 
+                     file_exists_in_project(".eslintrc.yaml"))) and { "eslint" } or {},
+        typescript = (executable_exists("eslint") and 
+                    (file_exists_in_project(".eslintrc.js") or 
+                     file_exists_in_project(".eslintrc.json") or 
+                     file_exists_in_project(".eslintrc.yml") or 
+                     file_exists_in_project(".eslintrc") or 
+                     file_exists_in_project(".eslintrc.yaml"))) and { "eslint" } or {},
+        javascriptreact = (executable_exists("eslint") and 
+                         (file_exists_in_project(".eslintrc.js") or 
+                          file_exists_in_project(".eslintrc.json") or 
+                          file_exists_in_project(".eslintrc.yml") or 
+                          file_exists_in_project(".eslintrc") or 
+                          file_exists_in_project(".eslintrc.yaml"))) and { "eslint" } or {},
+        typescriptreact = (executable_exists("eslint") and 
+                         (file_exists_in_project(".eslintrc.js") or 
+                          file_exists_in_project(".eslintrc.json") or 
+                          file_exists_in_project(".eslintrc.yml") or 
+                          file_exists_in_project(".eslintrc") or 
+                          file_exists_in_project(".eslintrc.yaml"))) and { "eslint" } or {},
+        svelte = (executable_exists("eslint") and 
+                (file_exists_in_project(".eslintrc.js") or 
+                 file_exists_in_project(".eslintrc.json") or 
+                 file_exists_in_project(".eslintrc.yml") or 
+                 file_exists_in_project(".eslintrc") or 
+                 file_exists_in_project(".eslintrc.yaml"))) and { "eslint" } or {},
       }
 
       -- Set up a command to manually trigger linting
@@ -822,12 +931,20 @@ return {
         lint.try_lint()
       end, {})
 
-      -- Set up automatic linting
+      -- Set up automatic linting with error handling
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
       vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
         group = lint_augroup,
         callback = function()
-          lint.try_lint()
+          -- Only try to lint if there are linters defined for this filetype
+          local ft = vim.bo.filetype
+          if lint.linters_by_ft[ft] and #lint.linters_by_ft[ft] > 0 then
+            -- Use pcall to catch any errors during linting
+            local ok, err = pcall(lint.try_lint)
+            if not ok then
+              vim.notify("Linting error: " .. tostring(err), vim.log.levels.WARN)
+            end
+          end
         end,
       })
     end,
