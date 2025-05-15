@@ -531,10 +531,10 @@ return {
       -- Schedule this to run after startup to avoid loading issues
       vim.defer_fn(function() 
         ensure_installed_mason({
-          -- "ruff", -- Python linter
-          -- "black", -- Python formatter
+          "ruff", -- Python linter
+          "black", -- Python formatter
           "stylua", -- Lua formatter
-          -- "prettierd", -- JavaScript/TypeScript/HTML/CSS/JSON formatter
+          "prettierd", -- JavaScript/TypeScript/HTML/CSS/JSON formatter
           "shfmt", -- Shell formatter
         })
       end, 100)
@@ -799,16 +799,17 @@ return {
 }
 EOL
 
-# Create plugins/conform.lua
-cat >"$NVIM_CONFIG_DIR/lua/plugins/conform.lua" <<'EOL'
+# Create new conform.lua with formatting-on-save disabled
+cat >"$CONFORM_CONFIG" <<'EOL'
 return {
   -- Formatter configuration
   {
     "stevearc/conform.nvim",
-    event = { "BufWritePre" },
+    event = { "BufReadPost" },
     cmd = { "ConformInfo" },
     keys = {
       {
+        -- Main format command
         "<leader>fm",
         function()
           require("conform").format({ async = true, lsp_fallback = true })
@@ -816,8 +817,18 @@ return {
         mode = "",
         desc = "Format buffer",
       },
+      {
+        -- Additional keybinding for formatting
+        "<leader>F",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format current buffer",
+      },
     },
     opts = {
+      -- Configure formatters
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "ruff_format", "black" },
@@ -834,20 +845,8 @@ return {
         bash = { "shfmt" },
         rust = { "rustfmt" },
       },
-      -- Set up format-on-save
-      format_on_save = function(bufnr)
-        -- Don't autoformat these files
-        local ignore_filetypes = { "sql", "java" }
-        if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
-          return
-        end
-        -- Don't autoformat files in these directories
-        local bufname = vim.api.nvim_buf_get_name(bufnr)
-        if bufname:match("/node_modules/") then
-          return
-        end
-        return { timeout_ms = 500, lsp_fallback = true }
-      end,
+      -- Explicitly disable format_on_save
+      format_on_save = false,
     },
   },
 }
