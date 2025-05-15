@@ -531,7 +531,7 @@ return {
       -- Schedule this to run after startup to avoid loading issues
       vim.defer_fn(function() 
         ensure_installed_mason({
-          "ruff", -- Python linter
+          -- "ruff", -- Python linter
           -- "black", -- Python formatter
           "stylua", -- Lua formatter
           -- "prettierd", -- JavaScript/TypeScript/HTML/CSS/JSON formatter
