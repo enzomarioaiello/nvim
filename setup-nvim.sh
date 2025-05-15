@@ -532,9 +532,9 @@ return {
       vim.defer_fn(function() 
         ensure_installed_mason({
           "ruff", -- Python linter
-          "black", -- Python formatter
+          -- "black", -- Python formatter
           "stylua", -- Lua formatter
-          "prettierd", -- JavaScript/TypeScript/HTML/CSS/JSON formatter
+          -- "prettierd", -- JavaScript/TypeScript/HTML/CSS/JSON formatter
           "shfmt", -- Shell formatter
         })
       end, 100)
